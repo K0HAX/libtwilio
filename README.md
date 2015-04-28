@@ -3,8 +3,8 @@ A C library to send SMS messages using Twilio
 
 Compiling
 ---------
-*Update secrets.h to match your twilio credentials
-*Run ```make```
+* Update secrets.h to match your twilio credentials
+* Run ```make```
 
 Running
 -------
