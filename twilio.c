@@ -2,8 +2,6 @@
 #include <string.h>
 #include <curl/curl.h>
 
-#include "secrets.h"
-
 // Twilio requires the SID inside the URL, this function is private.
 void BuildURL(char *src, char *dst)
 {
@@ -14,7 +12,7 @@ void BuildURL(char *src, char *dst)
 }
 
 // This function is exposed to the library.
-int SendSMS(char *Message, char *MessageTo)
+int SendSMS(char *Message, char *MessageTo, char *MessageFrom, char *TwilioSID, char *TwilioToken)
 {
     CURL *curl;
     CURLcode res;
@@ -30,7 +28,7 @@ int SendSMS(char *Message, char *MessageTo)
     curl_formadd(&formpost,
             &lastptr,
             CURLFORM_COPYNAME, "From",
-            CURLFORM_COPYCONTENTS, CONFIG_PHONE_FROM,
+            CURLFORM_COPYCONTENTS, MessageFrom,
             CURLFORM_END);
 
     /* Fill in the to field */
@@ -52,13 +50,13 @@ int SendSMS(char *Message, char *MessageTo)
     if(curl) {
         // Initialize the URL with something large.
         char TwilioURL[512];
-        BuildURL(CONFIG_SID, TwilioURL);
+        BuildURL(TwilioSID, TwilioURL);
 
         curl_easy_setopt(curl, CURLOPT_URL, TwilioURL);
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, formpost);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);
-        curl_easy_setopt(curl, CURLOPT_USERNAME, CONFIG_SID);
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, CONFIG_TOKEN);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, TwilioSID);
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, TwilioToken);
 
         res = curl_easy_perform(curl);
         if(res != CURLE_OK)
