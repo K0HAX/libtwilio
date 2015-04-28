@@ -5,7 +5,12 @@
 
 int main(int argc, char *argv[])
 {
-    // extern int SendSMS (char *Message, char *MessageTo, char *MessageFrom, char *TwilioSID, char *TwilioToken);
-    SendSMS("Hello, this is Michael. I am a C program!", CONFIG_PHONE_TO, CONFIG_PHONE_FROM, CONFIG_SID, CONFIG_TOKEN);
+    if(argc != 3) {
+        printf("Usage: %s <number> \"<message>\"\n", argv[0]);
+        return 1;
+    } else {
+        // extern int SendSMS (char *Message, char *MessageTo, char *MessageFrom, char *TwilioSID, char *TwilioToken);
+        SendSMS(argv[2], argv[1], CONFIG_PHONE_FROM, CONFIG_SID, CONFIG_TOKEN);
+    }
     return 0;
 }
