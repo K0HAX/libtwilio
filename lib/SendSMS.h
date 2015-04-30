@@ -1,2 +1,2 @@
-extern int SendSMS (char *Message, char *MessageTo, char *MessageFrom, char *TwilioSID, char *TwilioToken);
+extern int SendSMS (char *Message, char *MessageTo, char *MessageFrom, struct TwilioAccount Twilio);
 
